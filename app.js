@@ -5,9 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('handlebars');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
+//create express app
 var app = express();
 
 // view engine setup
@@ -20,8 +18,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// setup routes
+var indexRouter = require('./routes/index');
+var additemRouter = require('./routes/additem');
+var adduserRouter = require('./routes/adduser');
+var itemRouter = require('./routes/item');
+var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
+var searchRouter = require('./routes/search');
+var verifyRouter = require('./routes/verify');
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/additem', additemRouter);
+app.use('/adduser', adduserRouter);
+app.use('/item', itemRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/search', searchRouter);
+app.use('/verify', verifyRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,6 +53,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(80, () => console.log('Example app listening on port 80!'))
+// start server
+app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
 
 module.exports = app;
