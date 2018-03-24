@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('handlebars');
 
+var db = require('./db');
+
 //create express app
 var app = express();
 
@@ -54,6 +56,6 @@ app.use(function(err, req, res, next) {
 });
 
 // start server
-app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
+//app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
 
 module.exports = app;
