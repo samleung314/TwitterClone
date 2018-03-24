@@ -3,17 +3,18 @@ var router = express.Router();
 var User = require('../user/User');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('verify', { title: 'verify' });
+router.get('/', function (req, res, next) {
+	res.render('verify', { title: 'verify' });
 });
 
-router.post('/', function(req, res, next) {
-  var email = req.body.email;
-	var key = req.body.key;
+router.post('/', function (req, res, next) {
+	var email = req.body.verifyEmail;
+	var key = req.body.verifyKey;
 	var backDoor = 'abracadabra';
 
 	//console.log("email: " + email + "\nkey: " + key);
 	User.findOne({ email: email }, function (err, user) {
+		//can't find a user by email
 		if (err || !user) {
 			res.status(200).json({
 				status: 'ERROR'
@@ -36,6 +37,7 @@ router.post('/', function(req, res, next) {
 				});
 
 			} else {
+				//the key is wrong
 				res.status(200).json({
 					status: 'ERROR'
 				});

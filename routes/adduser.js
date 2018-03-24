@@ -65,8 +65,8 @@ nodemailer.createTestAccount((err, account) => {
       from: '"Twitter Clone" <cse356twitterclone@gmail.com>', // sender address
       to: email, // list of receivers
       subject: 'Verify your account', // Subject line
-      text: "Key: " + key + "\nhttp://localhost:3000/verify", // plain text body
-      html: '<p>Key: '+ key +'\n</p> <p><a href="http://localhost:3000/verify">verify</a></p>' // html body
+      text: "Key: " + key + "\nhttp://localhost:/verify", // plain text body
+      html: '<p>Key: '+ key +'\n</p> <p><a href="http://localhost:/verify">verify</a></p>' // html body
   };
 
   // send mail with defined transport object
