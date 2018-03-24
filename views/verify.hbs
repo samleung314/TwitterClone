@@ -1,0 +1,37 @@
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Scripts -->
+    <!-- <script src="/var/www/html/ttt/play/node_modules/jquery/src/jquery.js"></script> -->
+    <title>Twitter Clone</title>
+  </head>
+  <body>
+
+      <div class="leftDiv">
+        <div class="formContainer">
+          <form action="./verify" method="post" class="form-inline">
+
+              <label class="sr-only" for="inlineFormInputGroupUsername2">Email</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <input type="text" class="form-control" name="verifyEmail" placeholder="Email">
+              </div>
+
+              <label class="sr-only" for="inputPassword4">Key</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" name="verifyKey" placeholder="Key">
+
+              <button type="submit" onclick="onVerifyClick()" class="btn btn-primary mb-2">Verify</button>
+          </form>
+      </div>
+ </div>
+
+      <div class="rightDiv">
+
+      </div>
+
+</body>
