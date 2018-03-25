@@ -23,6 +23,7 @@ router.post('/', function (req, res, next) {
     } else {
       if (user.username == username && user.password == password && user.verified) {
         console.log(username + " login success!");
+        res.cookie('currentUser', username);
         res.status(200).json({
           status: 'OK'
         });
