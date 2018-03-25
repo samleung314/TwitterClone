@@ -8,19 +8,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-	var email = req.body.verifyEmail;
-	var key = req.body.verifyKey;
-	var backDoor = 'abracadabra';
+	var email = req.body.email;
+	var key = req.body.key;
 
-	//console.log("email: " + email + "\nkey: " + key);
+	console.log("Finding email: " + email + " key: " + key);
 	User.findOne({ email: email }, function (err, user) {
 		//can't find a user by email
 		if (err || !user) {
+			console.log("Can't find email");
 			res.status(200).json({
 				status: 'ERROR'
 			});
 		} else {
-			if (user.email == email && (key == backDoor || user.key == key)) {
+			if (user.email == email && user.key == key) {
 				//activate user
 				user.set({
 					verified: true
@@ -38,13 +38,13 @@ router.post('/', function (req, res, next) {
 
 			} else {
 				//the key is wrong
+				console.log("Email & key no match");
 				res.status(200).json({
 					status: 'ERROR'
 				});
 			}
 		}
 	});
-
 });
 
 module.exports = router;
