@@ -20,14 +20,14 @@ router.post('/', function (req, res, next) {
         status: 'ERROR'
       });
     } else {
-      if (user.username == username && user.password == password) {
+      if (user.username == username && user.password == password && user.verified) {
         console.log(username + " login success!");
         res.status(200).json({
           status: 'OK'
         });
       } else {
         //the username/password is wrong
-        console.log("No such username/password combination");
+        console.log("No such username/password combination or unverified");
         res.status(200).json({
           status: 'ERROR'
         });
