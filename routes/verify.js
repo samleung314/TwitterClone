@@ -17,7 +17,8 @@ router.post('/', function (req, res, next) {
 		if (err || !user) {
 			console.log("Can't find email");
 			res.status(200).json({
-				status: 'ERROR'
+				status: 'error',
+				error: "Email & key no match"
 			});
 		} else {
 			if (user.email == email && user.key == key) {
@@ -40,7 +41,8 @@ router.post('/', function (req, res, next) {
 				//the key is wrong
 				console.log("Email & key no match");
 				res.status(200).json({
-					status: 'ERROR'
+					status: 'error',
+					error: "Email & key no match"
 				});
 			}
 		}

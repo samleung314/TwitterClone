@@ -17,7 +17,8 @@ router.post('/', function (req, res, next) {
     if (err || !user) {
       console.log("Can't find username");
       res.status(200).json({
-        status: 'ERROR'
+        status: 'error',
+        error: 'Cannot find username'
       });
     } else {
       if (user.username == username && user.password == password && user.verified) {
@@ -29,7 +30,8 @@ router.post('/', function (req, res, next) {
         //the username/password is wrong
         console.log("No such username/password combination or unverified");
         res.status(200).json({
-          status: 'ERROR'
+          status: 'error',
+          error: 'No such username/password combination or unverified'
         });
       }
     }
