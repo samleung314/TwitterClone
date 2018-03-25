@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../item/Item');
+var Item = require('../item/Item');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -21,9 +21,10 @@ router.post('/', function (req, res, next) {
   var childType = null;
   if (typeof (req.body.childType) !== 'undefined') childType = req.body.childType;
 
-  var newItem = new User({
+  var newItem = new Item({
     content: content,
-    childType: childType
+    childType: childType,
+    user: req.cookies.currentUser
   });
 
   newItem.save(function (err, newItem) {
