@@ -19,11 +19,11 @@ router.get('/:id', function (req, res, next) {
         item: {
                 id: item.id,
                 username: item.user,
-                property: {likes: 0}
-              },
-        retweeted: 0,
-        content: item.content,
-        timestamp: Math.floor(Date.now() / 1000)
+                property: {likes: 0},
+                retweeted: 0,
+                content: item.content,
+                timestamp: Math.floor(Date.now() / 1000)
+        }
       });
     }
   });
