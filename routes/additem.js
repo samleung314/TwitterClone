@@ -24,7 +24,8 @@ router.post('/', function (req, res, next) {
   var newItem = new Item({
     content: content,
     childType: childType,
-    user: req.cookies.currentUser
+    user: req.cookies.currentUser,
+    timestamp: Math.floor(Date.now() / 1000)
   });
 
   newItem.save(function (err, newItem) {
