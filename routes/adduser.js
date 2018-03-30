@@ -82,4 +82,17 @@ function sendMail(email, key) {
     });
 }
 
+function isUnique(username, email) {
+    User.findOne({ username: username }, function (err, user) {
+
+        if (err) {
+            User.findOne({ email: email }, function (err, user) {
+                if (err) {return true;}
+                else return false;
+            });
+        }
+        else {return false;}
+    });
+}
+
 module.exports = router;
