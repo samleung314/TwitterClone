@@ -5,6 +5,12 @@ var UserSchema = new mongoose.Schema({
   password: String,
   key: String,
   verified: false,
+  following: [{
+    type: Schema.Types.ObjectId, ref: 'User'
+  }],
+  followers: [{
+    type: Schema.Types.ObjectId, ref: 'User'
+  }]
 });
 mongoose.model('User', UserSchema);
 

@@ -1,0 +1,74 @@
+const express = require('express');
+const async = require('async');
+const router = express.Router();
+const User = require('../user/User');
+
+router.post('/', (req, res, next) => {
+    var currentUserId = req.cookies.userId; //my id
+    var targetId;
+    var follow = true; //default : true
+    if (typeof (req.body.follow) !== 'undefined')
+        follow = req.body.follow;
+
+    User.findOne({ username: req.body.username }, function (err, user) {
+        //can't find a user by username
+        if (err || !user) {
+            console.log("Can't find username");
+            res.status(200).json({
+                status: 'error'
+            });
+        }
+        targetId = user._id;
+    });
+
+    if (follow) //follow
+    {
+        async.parallel([
+            function(callback) {
+            User.update( //update targetId
+                {
+                _id: targetId,
+                following: { $ne: currentUserId }
+                },
+                {
+                $push: { following: currentUserId }
+                }, function(err, count) {
+                callback(err, count);
+                }
+            )
+            },
+        
+            function(callback) { //update currentUser
+            User.update(
+                {
+                _id: currentUserId,
+                followers: { $ne: targetId }
+                },
+                {
+                $push: { followers: targetId }
+                }, function(err, count) {
+                callback(err, count);
+                }
+            )
+            }
+        ], function(err, results) {
+            if (err)
+            {
+                res.status(200).json({
+                    status: 'error'
+                });
+            }
+            res.status(200).json({
+                status: 'OK'
+            });
+        });
+    }
+    else //unfollow
+    {
+
+    }
+    
+    
+});
+
+module.exports = router;
