@@ -31,6 +31,7 @@ var logoutRouter = require('./routes/logout');
 var searchRouter = require('./routes/search');
 var verifyRouter = require('./routes/verify');
 var followRouter = require('./routes/follow');
+var userRouter = require('./routes/user');
 
 app.use('/', indexRouter);
 app.use('/additem', additemRouter);
@@ -41,6 +42,7 @@ app.use('/logout', logoutRouter);
 app.use('/search', searchRouter);
 app.use('/verify', verifyRouter);
 app.use('/follow', followRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

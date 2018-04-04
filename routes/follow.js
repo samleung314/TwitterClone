@@ -1,9 +1,10 @@
 const express = require('express');
 const async = require('async');
 const router = express.Router();
-const User = require('../user/User');
+const User = require('../model/User');
 
 
+//follow endpoint
 router.post('/', (req, res, next) => {
     var currentUserId = req.cookies.userId; //my id
     var targetId;
@@ -106,8 +107,6 @@ router.post('/', (req, res, next) => {
         }
 
     });
-
-
 });
 
 module.exports = router;

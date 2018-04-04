@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../user/User');
+var User = require('../model/User');
 const nodemailer = require('nodemailer');
 
 /* GET adduser listing. */
