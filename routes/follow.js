@@ -1,7 +1,7 @@
 const express = require('express');
 const async = require('async');
 const router = express.Router();
-const User = require('../model/User');
+const User = require('../models/User');
 
 
 //follow endpoint

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/User');
+var User = require('../models/User');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
     } else {
       if (user.username == username && user.password == password && user.verified) {
         console.log(username + " login success!");
-        res.cookie('currentUser', username);
+        res.cookie('username', username);
         res.cookie('userId', user._id);
         res.status(200).json({
           status: 'OK'

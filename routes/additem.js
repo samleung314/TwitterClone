@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Item = require('../model/Item');
+var Item = require('../models/Item');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   // check if logged in
-  if (typeof (req.cookies.currentUser) == 'undefined') {
+  if (typeof (req.cookies.username) == 'undefined') {
     res.status(200).json({
       status: 'error',
       error: 'No current user'
@@ -24,7 +24,7 @@ router.post('/', function (req, res, next) {
   var newItem = new Item({
     content: content,
     childType: childType,
-    user: req.cookies.currentUser,
+    user: req.cookies.username,
     timestamp: Math.floor(Date.now() / 1000)
   });
 

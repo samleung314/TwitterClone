@@ -7,7 +7,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  res.clearCookie('currentUser');
+  res.clearCookie('username');
+  res.clearCookie('userId');
   res.status(200).json({
     status: 'OK'
   });
