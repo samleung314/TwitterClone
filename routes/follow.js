@@ -3,6 +3,7 @@ const async = require('async');
 const router = express.Router();
 const User = require('../user/User');
 
+
 router.post('/', (req, res, next) => {
     var currentUserId = req.cookies.userId; //my id
     var targetId;
@@ -18,57 +19,95 @@ router.post('/', (req, res, next) => {
                 status: 'error'
             });
         }
-        targetId = user._id;
-    });
+        else {
+            targetId = user._id;
 
-    if (follow) //follow
-    {
-        async.parallel([
-            function(callback) {
-            User.update( //update targetId
-                {
-                _id: targetId,
-                following: { $ne: currentUserId }
-                },
-                {
-                $push: { following: currentUserId }
-                }, function(err, count) {
-                callback(err, count);
-                }
-            )
-            },
-        
-            function(callback) { //update currentUser
-            User.update(
-                {
-                _id: currentUserId,
-                followers: { $ne: targetId }
-                },
-                {
-                $push: { followers: targetId }
-                }, function(err, count) {
-                callback(err, count);
-                }
-            )
-            }
-        ], function(err, results) {
-            if (err)
+            if (follow) //follow
             {
-                res.status(200).json({
-                    status: 'error'
+                async.parallel([
+                    function (callback) {
+                        User.update( //update targetId
+                            {
+                                _id: targetId,
+                                followers: { $ne: currentUserId }
+                            },
+                            {
+                                $push: { followers: currentUserId }
+                            }, function (err, count) {
+                                callback(err, count);
+                            }
+                        )
+                    },
+
+                    function (callback) { //update currentUser
+                        User.update(
+                            {
+                                _id: currentUserId,
+                                following: { $ne: targetId }
+                            },
+                            {
+                                $push: { following: targetId }
+                            }, function (err, count) {
+                                callback(err, count);
+                            }
+                        )
+                    }
+                ], function (err, results) {
+                    if (err) {
+                        res.status(200).json({
+                            status: 'error'
+                        });
+                    }
+                    res.status(200).json({
+                        status: 'OK'
+                    });
                 });
             }
-            res.status(200).json({
-                status: 'OK'
-            });
-        });
-    }
-    else //unfollow
-    {
+            else //unfollow
+            {
+                async.parallel([
+                    function (callback) {
+                        User.update(
+                            {
+                                _id: targetId,
+                            },
+                            {
+                                $pull: { followers: currentUserId }
+                            }, function (err, count) {
+                                callback(err, count);
+                            }
+                        )
+                    },
 
-    }
-    
-    
+                    function (callback) {
+                        User.update(
+                            {
+                                _id: currentUserId,
+                            },
+                            {
+                                $pull: { following: targetId }
+                            }, function (err, count) {
+                                callback(err, count);
+                            }
+                        )
+                    }
+                ], function (err, results) {
+                    if (err) {
+                        res.status(200).json({
+                            status: 'error'
+                        });
+                    }
+                    res.status(200).json({
+                        status: 'OK'
+                    });
+                });
+            }
+
+        }
+
+    });
+
+
 });
 
 module.exports = router;
