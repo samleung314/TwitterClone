@@ -1,15 +1,13 @@
 const express = require('express');
-const async = require('async');
 const router = express.Router();
 const User = require('../models/User');
 
 
 
-//Gets user profile information
-router.get('/:id', function (req, res, next) {
-    var currentUserId = req.cookies.userId;
-    var username = req.cookies.username;
 
+//Gets user profile information
+router.get('/:username', function (req, res, next) {
+    var username = req.params.username;
     User.findOne({ username: username }, function (err, user) {
         //can't find a user by userid
         if (err || !user) {
@@ -35,8 +33,34 @@ router.get('/:id', function (req, res, next) {
 
 
 //Gets list of users following “username”
-router.get('/:id/followers', function (req, res, next) {
+router.get('/:username/followers', function (req, res, next) {
+    var username = req.params.username;
+    var limit = 50; //default : 50
+    if (typeof (req.body.limit) !== 'undefined')
+    {
+        if (req.body.limit > 200)
+            limit = 200;
+        else
+            limit = req.body.limit;
+    }
+    
+    User.findOne({ username: username }, function (err, user) {
+        //can't find a user by username
+        if (err || !user) {
+            console.log("Can't find username");
+            res.status(200).json(
+                "error"
+            )
+        }
+        else {
+            var followers = user.followers;
 
+            res.status(200).json({
+                status: 'OK',
+                //users:
+            });
+        }
+    });
 
 
 });
@@ -44,7 +68,33 @@ router.get('/:id/followers', function (req, res, next) {
 
 //Gets list of users “username” is following
 router.get('/:id/following', function (req, res, next) {
+    var username = req.params.username;
+    var limit = 50; //default : 50
+    if (typeof (req.body.limit) !== 'undefined')
+    {
+        if (req.body.limit > 200)
+            limit = 200;
+        else
+            limit = req.body.limit;
+    }
+    
+    User.findOne({ username: username }, function (err, user) {
+        //can't find a user by username
+        if (err || !user) {
+            console.log("Can't find username");
+            res.status(200).json(
+                "error"
+            )
+        }
+        else {
+            var followers = user.followers;
 
+            res.status(200).json({
+                status: 'OK',
+                //users:
+            });
+        }
+    });
 
 
 });
