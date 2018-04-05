@@ -13,7 +13,7 @@ router.post('/', function (req, res, next) {
   var username = '';
   var following = true;
 
-  var currentId = req.cookies.userId;
+  var currentUser = req.cookies.username;
 
   var error = false;
   if (typeof (req.body.timestamp) !== 'undefined') time = req.body.timestamp;
@@ -57,7 +57,7 @@ router.post('/', function (req, res, next) {
   }
 
   function returnFollowingPosts() {
-    User.findOne({ _id: currentId }, function (err, user) {
+    User.findOne({ username: currentUser }, function (err, user) {
       if(err) {
 
       }
