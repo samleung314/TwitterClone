@@ -37,9 +37,11 @@ router.post('/', function (req, res, next) {
     Item.
       find({
         timestamp: { $lte: time },
-        user: user.username,
+        username: user.username,
         content: { $regex: q, $options: "i" }
-      }).
+      }, {
+          '_id': 0, 'username': 1, 'property': 1, 'retweeted': 1, 'content': 1, 'timestamp': 1
+        }).
       limit(limit).
       exec(function (err, docs) {
         if (err) {
@@ -61,7 +63,7 @@ router.post('/', function (req, res, next) {
     User.findOne({ username: currentUser }, function (err, user) {
       Item.
         find({
-          user: { $in: user.following },
+          username: { $in: user.following },
           timestamp: { $lte: time },
           content: { $regex: q, $options: "i" }
         }).
@@ -147,7 +149,7 @@ router.post('/', function (req, res, next) {
     //user not given
   } else {
     if (following) {
-      
+
       returnFollowingPosts();
     } else {
       console.log("HELLO")
