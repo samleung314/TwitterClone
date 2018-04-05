@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,6 +7,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('handlebars');
 var async = require('async');
+=======
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookie = require('cookie');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const hbs = require('handlebars');
+const expressHbs = require('express-handlebars');
+//Support a directories of partials;
+//e.g., {{> navbar}} which exists on the file system at views/partials/navbar.hbs, by default.
+>>>>>>> e350e0c1c62543bf4333ce9077353c42e0bfee2d
 
 var db = require('./db');
 
@@ -13,14 +26,20 @@ var db = require('./db');
 var app = express();
 
 // view engine setup
+/*
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+*/
+app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
+app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/public'));
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // setup routes
 var indexRouter = require('./routes/index');

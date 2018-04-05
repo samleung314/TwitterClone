@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-var followingName = [];
-var followersName = [];
-
-
-
 
 //Gets user profile information
 router.get('/:username', function (req, res, next) {
@@ -40,8 +35,7 @@ router.get('/:username/followers', function (req, res, next) {
     var username = req.params.username;
     var limit = 50; //default : 50
 
-    if (typeof (req.query.limit) !== 'undefined')
-    {
+    if (typeof (req.query.limit) !== 'undefined') {
         if (req.query.limit > 200)
             limit = 200;
         else
@@ -57,21 +51,15 @@ router.get('/:username/followers', function (req, res, next) {
             )
         }
         else {
-            var followersId = user.followers;
- 
-            for (let i = 0; i< limit && i<followersId.length ; i++)
-            {
-                User.findOne({ _id: followersId[i] }, function (err, followersUser) {
-                    followersName.push(followersUser.username);
-                });
-            }
+            var followers = user.followers; //array containging followers name
+            if (followers.length > limit)
+                followers = followers.slice(0, limit);
 
             res.status(200).json({
                 status: 'OK',
-                users: followersName
+                users: followers
             });
 
-            followersName = [];
         }
     });
 
@@ -83,14 +71,13 @@ router.get('/:username/following', function (req, res, next) {
     var username = req.params.username;
     var limit = 50; //default : 50
 
-    if (typeof (req.query.limit) !== 'undefined')
-    {
+    if (typeof (req.query.limit) !== 'undefined') {
         if (req.query.limit > 200)
             limit = 200;
         else
             limit = req.query.limit;
     }
-    
+
     User.findOne({ username: username }, function (err, user) {
         //can't find a user by username
         if (err || !user) {
@@ -100,21 +87,16 @@ router.get('/:username/following', function (req, res, next) {
             )
         }
         else {
-            var followingId = user.following; //array containing followers' id;
-         
-           
-            for (let i = 0; i< 200 && i< followingId.length; i++)
-            {
-                User.findOne({ _id: followingId[i] }, function (err, followingUser) {
-                    followingName.push(followingUser.username);
-                });
-            }
+            var following = user.following; //array containing followers' name;
+            if (following.length > limit)
+                following = following.slice(0, limit);
+
+
             res.status(200).json({
                 status: 'OK',
-                users: followingName
+                users: following
             });
 
-            followingName = [];
         }
     });
 

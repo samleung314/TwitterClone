@@ -7,12 +7,8 @@ var UserSchema = new mongoose.Schema({
   password: String,
   key: String,
   verified: false,
-  following: [{
-    type: Schema.Types.ObjectId, ref: 'User'
-  }],
-  followers: [{
-    type: Schema.Types.ObjectId, ref: 'User'
-  }]
+  following: [ String ],
+  followers: [ String ]
 });
 mongoose.model('User', UserSchema);
 

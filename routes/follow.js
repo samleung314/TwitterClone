@@ -6,8 +6,8 @@ const User = require('../models/User');
 
 //follow endpoint
 router.post('/', (req, res, next) => {
-    var currentUserId = req.cookies.userId; //my id
-    var targetId;
+    var currentUsername = req.cookies.username; //my id
+    var targetUsername;
     var follow = true; //default : true
     if (typeof (req.body.follow) !== 'undefined')
         follow = req.body.follow;
@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
             });
         }
         else {
-            targetId = user._id;
+            targetUsername = user.username;
 
             if (follow) //follow
             {
@@ -29,11 +29,11 @@ router.post('/', (req, res, next) => {
                     function (callback) {
                         User.update( //update targetId
                             {
-                                _id: targetId,
-                                followers: { $ne: currentUserId }
+                                username: targetUsername,
+                                //followers: { $ne: currentUsername }
                             },
                             {
-                                $push: { followers: currentUserId }
+                                $push: { followers: currentUsername }
                             }, function (err, count) {
                                 callback(err, count);
                             }
@@ -43,11 +43,11 @@ router.post('/', (req, res, next) => {
                     function (callback) { //update currentUser
                         User.update(
                             {
-                                _id: currentUserId,
-                                following: { $ne: targetId }
+                                username: currentUsername,
+                                following: { $ne: targetUsername }
                             },
                             {
-                                $push: { following: targetId }
+                                $push: { following: targetUsername }
                             }, function (err, count) {
                                 callback(err, count);
                             }
@@ -70,10 +70,10 @@ router.post('/', (req, res, next) => {
                     function (callback) {
                         User.update(
                             {
-                                _id: targetId,
+                                username: targetUsername,
                             },
                             {
-                                $pull: { followers: currentUserId }
+                                $pull: { followers: currentUsername }
                             }, function (err, count) {
                                 callback(err, count);
                             }
@@ -83,10 +83,10 @@ router.post('/', (req, res, next) => {
                     function (callback) {
                         User.update(
                             {
-                                _id: currentUserId,
+                                username: currentUsername,
                             },
                             {
-                                $pull: { following: targetId }
+                                $pull: { following: targetUsername }
                             }, function (err, count) {
                                 callback(err, count);
                             }
