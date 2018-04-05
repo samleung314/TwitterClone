@@ -53,14 +53,14 @@ function sendMail(email, key) {
         let transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {
-                user: "cse356twitterclone@gmail.com", // generated ethereal user
+                user: "cse356twitterclone2@gmail.com", // generated ethereal user
                 pass: "2Q2-Fg3-4D9-WAt" // generated ethereal password
             }
         });
 
         // setup email data with unicode symbols
         let mailOptions = {
-            from: '"Twitter Clone" <cse356twitterclone@gmail.com>', // sender address
+            from: '"Twitter Clone" <cse356twitterclone2@gmail.com>', // sender address
             to: email, // list of receivers
             subject: 'Verify your account', // Subject line
             text: "validation key: <" + key + ">" // plain text body

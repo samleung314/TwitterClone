@@ -17,10 +17,6 @@ router.post('/', function (req, res, next) {
     });
     return;
   }
-  
-  var content = req.body.content;
-  var childType = null;
-  if (typeof (req.body.childType) !== 'undefined') childType = req.body.childType;
 
   var newItem = new Item({
     id: mongoose.Types.ObjectId(),
@@ -29,7 +25,7 @@ router.post('/', function (req, res, next) {
       likes: 0
     },
     retweeted: 0,
-    content: content,
+    content: req.body.content,
     timestamp: Math.floor(Date.now() / 1000)
   });
 
