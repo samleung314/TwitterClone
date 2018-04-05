@@ -15,15 +15,23 @@ router.post('/', function (req, res, next) {
 
   var currentUser = req.cookies.username;
 
+  console.log("BODY: " + req.body);
+
   var error = false;
   if (typeof (req.body.timestamp) !== 'undefined') time = req.body.timestamp;
   if (typeof (req.body.limit) !== 'undefined') limit = Number(req.body.limit);
   if (typeof (req.body.q) !== 'undefined') q = req.body.q;
   if (typeof (req.body.username) !== 'undefined') username = req.body.username;
-  if (typeof (req.body.following) !== 'undefined') following = (req.body.following === "true");
   if (time > now || limit > 100 || limit < 0) error = true;
 
-  console.log(req.body);
+
+  if (typeof (req.body.following) !== 'undefined'){
+    console.log("TYPEOF following: " + typeof(req.body.following));
+    console.log("following: " + following);
+    if(req.body.following === "true") following = true;
+    if(req.body.following == 'true') following = true;
+  }
+
 
   if (error) {
     console.log("invalid search");
@@ -136,7 +144,7 @@ router.post('/', function (req, res, next) {
         //following
         if (following) {
           //check logged in user is following username
-          if (user.followers.indexOf(currentId) >= 0) {
+          if (user.followers.indexOf(currentUser) >= 0) {
             returnUserPosts(user);
           } else {
             console.log("Target user is not being followed");
@@ -156,9 +164,10 @@ router.post('/', function (req, res, next) {
     //user not given
   } else {
     if (following) {
+      console.log("returnFollowingPosts()")
       returnFollowingPosts();
     } else {
-      console.log("HELLO")
+      console.log("returnAllPosts()")
       returnAllPosts();
     }
   }
