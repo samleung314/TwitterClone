@@ -5,6 +5,7 @@ var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('handlebars');
+var async = require('async');
 
 var db = require('./db');
 
