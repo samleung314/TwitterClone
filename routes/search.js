@@ -17,7 +17,7 @@ router.post('/', function (req, res, next) {
 
   var error = false;
   if (typeof (req.body.timestamp) !== 'undefined') time = req.body.timestamp;
-  if (typeof (req.body.limit) !== 'undefined') limit = req.body.limit;
+  if (typeof (req.body.limit) !== 'undefined') limit = Number(req.body.limit);
   if (typeof (req.body.q) !== 'undefined') q = req.body.q;
   if (typeof (req.body.username) !== 'undefined') username = req.body.username;
   if (typeof (req.body.following) !== 'undefined') following = req.body.following == "true";
