@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
   if (typeof (req.body.limit) !== 'undefined') limit = Number(req.body.limit);
   if (typeof (req.body.q) !== 'undefined') q = req.body.q;
   if (typeof (req.body.username) !== 'undefined') username = req.body.username;
-  if (typeof (req.body.following) !== 'undefined') following = req.body.following == "true";
+  if (typeof (req.body.following) !== 'undefined') following = (req.body.following === "true");
   if (time > now || limit > 100 || limit < 0) error = true;
 
   console.log(req.body);
@@ -156,7 +156,6 @@ router.post('/', function (req, res, next) {
     //user not given
   } else {
     if (following) {
-
       returnFollowingPosts();
     } else {
       console.log("HELLO")
