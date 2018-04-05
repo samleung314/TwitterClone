@@ -36,7 +36,18 @@ router.get('/:username', function (req, res, next) {
 
 //Gets list of users following “username”
 router.get('/:username/followers', function (req, res, next) {
+
     var username = req.params.username;
+    var limit = 50; //default : 50
+    console.log(limit);
+
+    if (typeof (req.query.limit) !== 'undefined')
+    {
+        if (req.query.limit > 200)
+            limit = 200;
+        else
+            limit = req.query.limit;
+    }
 
     User.findOne({ username: username }, function (err, user) {
         //can't find a user by username
@@ -49,7 +60,7 @@ router.get('/:username/followers', function (req, res, next) {
         else {
             var followersId = user.followers;
  
-            for (let i = 0; i< 200 && i<followersId.length ; i++)
+            for (let i = 0; i< limit && i<followersId.length ; i++)
             {
                 User.findOne({ _id: followersId[i] }, function (err, followersUser) {
                     followersName.push(followersUser.username);
@@ -67,11 +78,20 @@ router.get('/:username/followers', function (req, res, next) {
 
 
 });
-var followingName = []; //empty array
 
 //Gets list of users “username” is following
 router.get('/:username/following', function (req, res, next) {
     var username = req.params.username;
+    var limit = 50; //default : 50
+    console.log(limit);
+
+    if (typeof (req.query.limit) !== 'undefined')
+    {
+        if (req.query.limit > 200)
+            limit = 200;
+        else
+            limit = req.query.limit;
+    }
     
     User.findOne({ username: username }, function (err, user) {
         //can't find a user by username
