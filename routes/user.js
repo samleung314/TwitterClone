@@ -39,7 +39,6 @@ router.get('/:username/followers', function (req, res, next) {
 
     var username = req.params.username;
     var limit = 50; //default : 50
-    console.log(limit);
 
     if (typeof (req.query.limit) !== 'undefined')
     {
@@ -69,7 +68,7 @@ router.get('/:username/followers', function (req, res, next) {
 
             res.status(200).json({
                 status: 'OK',
-                users: follwersName
+                users: followersName
             });
 
             followersName = [];
@@ -83,7 +82,6 @@ router.get('/:username/followers', function (req, res, next) {
 router.get('/:username/following', function (req, res, next) {
     var username = req.params.username;
     var limit = 50; //default : 50
-    console.log(limit);
 
     if (typeof (req.query.limit) !== 'undefined')
     {
