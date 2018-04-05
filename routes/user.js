@@ -75,7 +75,7 @@ router.get('/:username/followers', function (req, res, next) {
 
 
 });
-
+var followingName = []; //empty array
 
 //Gets list of users “username” is following
 router.get('/:username/following', function (req, res, next) {
@@ -101,16 +101,13 @@ router.get('/:username/following', function (req, res, next) {
         else {
             var followingId = user.following; //array containing followers' id;
          
-            var followingName = []; //empty array
+           
             for (let i = 0; i< 200 && i< followingId.length; i++)
             {
                 User.findOne({ _id: followingId[i] }, function (err, followingUser) {
-                    console.log(followingId[i]);
-                    console.log(followingUser.username);
-                    followingName.push("1");
+                    followingName.push(followingUser.username);
                 });
             }
-            followingName.push("1");
             res.status(200).json({
                 status: 'OK',
                 users: followingName
