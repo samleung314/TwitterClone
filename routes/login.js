@@ -24,7 +24,6 @@ router.post('/', function (req, res, next) {
       if (user.username == username && user.password == password && user.verified) {
         console.log(username + " login success!");
         res.cookie('username', username);
-        res.cookie('userId', user._id);
         res.status(200).json({
           status: 'OK'
         });
