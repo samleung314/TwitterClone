@@ -40,8 +40,9 @@ router.post('/', function (req, res, next) {
         username: user.username,
         content: { $regex: q, $options: "i" }
       }, {
-          '_id': 0, 'username': 1, 'property': 1, 'retweeted': 1, 'content': 1, 'timestamp': 1
-        }).
+        "_id" : 0,
+        "__v" : 0
+      }).
       limit(limit).
       exec(function (err, docs) {
         if (err) {
@@ -66,6 +67,9 @@ router.post('/', function (req, res, next) {
           username: { $in: user.following },
           timestamp: { $lte: time },
           content: { $regex: q, $options: "i" }
+        },{
+          "_id" : 0,
+          "__v" : 0
         }).
         limit(limit).
         exec(function (err, docs) {
@@ -91,6 +95,9 @@ router.post('/', function (req, res, next) {
       find({
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" }
+      },{
+        "_id" : 0,
+        "__v" : 0
       }).
       limit(limit).
       exec(function (err, docs) {
