@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -7,18 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('handlebars');
 var async = require('async');
-=======
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookie = require('cookie');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const hbs = require('handlebars');
 const expressHbs = require('express-handlebars');
-//Support a directories of partials;
-//e.g., {{> navbar}} which exists on the file system at views/partials/navbar.hbs, by default.
->>>>>>> e350e0c1c62543bf4333ce9077353c42e0bfee2d
 
 var db = require('./db');
 
