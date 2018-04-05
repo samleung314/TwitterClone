@@ -20,8 +20,10 @@ router.post('/', function (req, res, next) {
   if (typeof (req.body.limit) !== 'undefined') limit = req.body.limit;
   if (typeof (req.body.q) !== 'undefined') q = req.body.q;
   if (typeof (req.body.username) !== 'undefined') username = req.body.username;
-  if (typeof (req.body.following) !== 'undefined') following = req.body.following;
+  if (typeof (req.body.following) !== 'undefined') following = req.body.following == "true";
   if (time > now || limit > 100 || limit < 0) error = true;
+
+  console.log("following:" + following)
 
   if (error) {
     console.log("invalid search");
@@ -36,8 +38,7 @@ router.post('/', function (req, res, next) {
       find({
         timestamp: { $lte: time },
         user: user.username,
-        content: { $regex: q, $options: "i"}
-        //{ $regex : new RegExp(q, "ig"), $options: "x"}
+        content: { $regex: q, $options: "i" }
       }).
       limit(limit).
       exec(function (err, docs) {
@@ -58,68 +59,58 @@ router.post('/', function (req, res, next) {
 
   function returnFollowingPosts() {
     User.findOne({ username: currentUser }, function (err, user) {
-      if(err) {
-
-      }
-      else {
-        var following = user.following;
-        
-      }
-
-    });
-
-    Item.
-    find({
-      user: {$in: user.following},
-      timestamp: { $lte: time },
-      content: { $regex: q, $options: "i"}
-      //{ $regex : new RegExp(q, "ig"), $options: "x"}
-    }).
-    limit(limit).
-    exec(function (err, docs) {
-      if (err) {
-        console.log(err);
-        res.status(200).json({
-          status: 'error'
+      Item.
+        find({
+          user: { $in: user.following },
+          timestamp: { $lte: time },
+          content: { $regex: q, $options: "i" }
+        }).
+        limit(limit).
+        exec(function (err, docs) {
+          if (err) {
+            console.log(err);
+            res.status(200).json({
+              status: 'error'
+            });
+          } else {
+            console.log("RETURN FOLLOWING POSTS");
+            res.status(200).json({
+              status: 'OK',
+              items: docs
+            });
+          }
         });
-      } else {
-        console.log("RETURN USER POSTS");
-        res.status(200).json({
-          status: 'OK',
-          items: docs
-        });
-      }
     });
 
   }
-  
+
   function returnAllPosts() {
     Item.
-    find({
-      timestamp: { $lte: time },
-      content: { $regex: q, $options: "i"}
-      //{ $regex : new RegExp(q, "ig"), $options: "x"}
-    }).
-    limit(limit).
-    exec(function (err, docs) {
-      if (err) {
-        console.log(err);
-        res.status(200).json({
-          status: 'error'
-        });
-      } else {
-        console.log("RETURN ALL POSTS");
-        res.status(200).json({
-          status: 'OK',
-          items: docs
-        });
-      }
-    });
-    
+      find({
+        timestamp: { $lte: time },
+        content: { $regex: q, $options: "i" }
+      }).
+      limit(limit).
+      exec(function (err, docs) {
+        if (err) {
+          console.log(err);
+          res.status(200).json({
+            status: 'error'
+          });
+        } else {
+          console.log("RETURN ALL POSTS");
+          res.status(200).json({
+            status: 'OK',
+            items: docs
+          });
+        }
+      });
+
   }
 
   //user given
   if (username) {
+    console.log("username:" + username)
     //valid user?
     User.findOne({ username: username }, function levelOne(err, user) {
       //can't find user
@@ -156,9 +147,11 @@ router.post('/', function (req, res, next) {
     //user not given
   } else {
     if (following) {
-      //return all following
+      
+      returnFollowingPosts();
     } else {
-      //return all users posts
+      console.log("HELLO")
+      returnAllPosts();
     }
   }
 });
