@@ -3,12 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'logout' });
+  res.clearCookie('username');
+  res.render('main/landing', { title: 'logout' });
 });
 
 router.post('/', function(req, res, next) {
   res.clearCookie('username');
-  res.clearCookie('userId');
   res.status(200).json({
     status: 'OK'
   });
