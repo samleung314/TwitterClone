@@ -28,6 +28,7 @@ router.post('/', function (req, res, next) {
   console.log('q: ' + q);
   console.log('username: ' + username);
   console.log("TYPEOF following: " + typeof(req.body.following) + ' value: ' + following);
+  if(following == 'false') following = false;
   if(following == true) console.log(following + " is true");
   if(following == false) console.log(following + " is false");
 

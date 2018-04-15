@@ -8,7 +8,7 @@ var hbs = require('handlebars');
 var async = require('async');
 const expressHbs = require('express-handlebars');
 
-var db = require('./db');
+var mongodb = require('./mongodb');
 
 //create express app
 var app = express();
