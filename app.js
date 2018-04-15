@@ -11,7 +11,7 @@ const session = require('express-session');
 const flash = require('express-flash');
 const config = require('./config/secret');
 
-var db = require('./db');
+var mongodb = require('./mongodb');
 
 //create express app
 var app = express();

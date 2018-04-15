@@ -4,7 +4,7 @@ var Item = require('../models/Item');
 
 /* GET */
 router.get('/:id', function (req, res, next) {
-  Item.findOne({ _id: req.params.id }, function (err, item) {
+  Item.findOne({ id: req.params.id }, function (err, item) {
     //can't find a item by username
     if (err || !item) {
       console.log("Can't find item");
@@ -33,7 +33,7 @@ router.get('/:id', function (req, res, next) {
 router.delete('/:id', function (req, res, next) {
   console.log("DELETE");
   var targetId = req.params.id;
-  Item.find({ _id: targetId }).remove(function (err, item) {
+  Item.find({ id: targetId }).remove(function (err, item) {
     if (err || !item) {
       console.log("Can't find item");
       res.status(204).end();
