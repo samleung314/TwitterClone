@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://localhost:27017/TwitterCloneUsers';
+var mongoDB = 'mongodb://localhost:27017/twitter';
 mongoose.connect(mongoDB);
 
 var db = mongoose.connection;
