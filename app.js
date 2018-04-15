@@ -10,6 +10,7 @@ const expressHbs = require('express-handlebars');
 const session = require('express-session');
 const flash = require('express-flash');
 const config = require('./config/secret');
+const bodyParser = require('body-parser');
 
 var mongodb = require('./mongodb');
 
@@ -17,11 +18,6 @@ var mongodb = require('./mongodb');
 var app = express();
 
 // view engine setup
-/*
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
-*/
 app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
@@ -38,6 +34,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); //tells the system that you want json to be used.
+
 // setup routes
 var indexRouter = require('./routes/index');
 var additemRouter = require('./routes/additem');
@@ -49,6 +48,7 @@ var searchRouter = require('./routes/search');
 var verifyRouter = require('./routes/verify');
 var followRouter = require('./routes/follow');
 var userRouter = require('./routes/user');
+var mediaRouter = require('./routes/media');
 
 app.use('/', indexRouter);
 app.use('/additem', additemRouter);
@@ -60,6 +60,7 @@ app.use('/search', searchRouter);
 app.use('/verify', verifyRouter);
 app.use('/follow', followRouter);
 app.use('/user', userRouter);
+app.use(mediaRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
