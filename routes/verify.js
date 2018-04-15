@@ -3,9 +3,9 @@ var router = express.Router();
 var User = require('../models/User');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-	res.render('verify', { title: 'verify' });
-});
+router.get((req, res, next) => {
+    res.render('accounts/verify', { message: req.flash('errors') });
+  });
 
 router.post('/', function (req, res, next) {
 	var email = req.body.email;

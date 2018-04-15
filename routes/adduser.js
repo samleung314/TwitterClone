@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 
 /* GET adduser listing. */
 router.get('/', function (req, res, next) {
-    res.render('adduser', { title: 'add user' });
+    res.render('accounts/adduser', { message: req.flash('errors') });
 });
 
 router.post('/', function (req, res, next) {

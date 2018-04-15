@@ -8,9 +8,8 @@ router.get('/', function(req, res, next) {
 });
 */
 router.get('/', (req, res, next) => {
-  if (req.cookies) {
-
-    res.render('main/home', { title: 'timeline' });
+  if (req.cookies.username) {
+    res.render('main/home', { title: 'timeline', currentUser: req.cookies.username });
   } else {
     res.render('main/landing');
   }

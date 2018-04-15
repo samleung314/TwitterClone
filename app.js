@@ -7,6 +7,9 @@ var logger = require('morgan');
 var hbs = require('handlebars');
 var async = require('async');
 const expressHbs = require('express-handlebars');
+const session = require('express-session');
+const flash = require('express-flash');
+const config = require('./config/secret');
 
 var db = require('./db');
 
@@ -24,7 +27,13 @@ app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 
 
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: config.secret
+}));
 app.use(logger('dev'));
+app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
