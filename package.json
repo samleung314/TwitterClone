@@ -17,6 +17,7 @@
     "handlebars": "^4.0.11",
     "hbs": "~4.0.1",
     "http-errors": "~1.6.2",
+    "memcached": "^2.2.2",
     "mongodb": "^3.0.5",
     "mongoose": "^5.0.11",
     "monk": "^6.0.5",
