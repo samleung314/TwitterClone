@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
   if (typeof (req.body.username) !== 'undefined') username = req.body.username;
   if (typeof (req.body.following) !== 'undefined') following = req.body.following;
   if (time > now || limit > 100 || limit < 0) error = true;
-  if (typeof (req.body.replies) !== 'undefined') replies = req.body].replies;
+  if (typeof (req.body.replies) !== 'undefined') replies = req.body.replies;
   if (typeof (req.body.hasMedia) !== 'undefined') hasMedia = req.body.hasMedia;
 
   console.log(req.body);
