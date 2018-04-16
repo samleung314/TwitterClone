@@ -7,7 +7,11 @@ var ItemSchema = new mongoose.Schema({
   },
   retweeted: Number,
   content: String,
-  timestamp: Number
+  timestamp: Number,
+  childType: {type: String, default: null},
+  parent: {type:String, default: ''},
+  media: [ String ]
+
 });
 mongoose.model('Item', ItemSchema);
 
