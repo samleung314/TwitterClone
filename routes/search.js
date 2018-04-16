@@ -189,7 +189,7 @@ router.post('/', function (req, res, next) {
   if (username) {
     console.log("username:" + username)
     //valid user?
-    User.findOne({ username: username }, function levelOne(err, user) {
+    UserRemote.findOne({ username: username }, function levelOne(err, user) {
       //can't find user
       if (err || !user) {
         console.log("Can't find username");
@@ -480,7 +480,7 @@ function returnUserPosts_Pa_NoRe(user) {
 
 //no parent, media only
 function returnFollowingPosts_MeO() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -511,7 +511,7 @@ function returnFollowingPosts_MeO() {
 
 //no parent 
 function returnFollowingPosts() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -541,7 +541,7 @@ function returnFollowingPosts() {
 
 //no parent, exclude replies, media only
 function returnFollowingPosts_NoRe_MeO() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -573,7 +573,7 @@ function returnFollowingPosts_NoRe_MeO() {
 
 //no parent, exlude replies
 function returnFollowingPosts_NoRe() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -606,7 +606,7 @@ function returnFollowingPosts_NoRe() {
 
 //with parent, media only
 function returnFollowingPosts_Pa_MeO() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -638,7 +638,7 @@ function returnFollowingPosts_Pa_MeO() {
 
 //with parent
 function returnFollowingPosts_Pa() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -669,7 +669,7 @@ function returnFollowingPosts_Pa() {
 
 //with parent, exclude replies, media only
 function returnFollowingPosts_Pa_NoRe_MeO() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
@@ -702,7 +702,7 @@ function returnFollowingPosts_Pa_NoRe_MeO() {
 
 //with parent, exclude replies
 function returnFollowingPosts_Pa_NoRe() {
-  User.findOne({ username: currentUser }, function (err, user) {
+  UserRemote.findOne({ username: currentUser }, function (err, user) {
     Item.
       find({
         username: { $in: user.following },
