@@ -300,7 +300,7 @@ function returnUserPosts_NoRe_MeO(user) {
         timestamp: { $lte: time },
         username: user.username,
         content: { $regex: q, $options: "i" },
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       }, {
         "_id" : 0,
@@ -422,7 +422,7 @@ function returnUserPosts_Pa_NoRe_MeO(user) {
         username: user.username,
         content: { $regex: q, $options: "i" },
         parent: parent,
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       }, {
         "_id" : 0,
@@ -547,7 +547,7 @@ function returnFollowingPosts_NoRe_MeO() {
         username: { $in: user.following },
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       },{
         "_id" : 0,
@@ -579,7 +579,7 @@ function returnFollowingPosts_NoRe() {
         username: { $in: user.following },
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
-        $or: [{childType: ''},{childType: 'retweet'}]
+        $or: [{childType: null},{childType: 'retweet'}]
       },{
         "_id" : 0,
         "__v" : 0
@@ -676,7 +676,7 @@ function returnFollowingPosts_Pa_NoRe_MeO() {
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
         parent: parent,
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       },{
         "_id" : 0,
@@ -709,7 +709,7 @@ function returnFollowingPosts_Pa_NoRe() {
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
         parent: parent,
-        $or: [{childType: ''},{childType: 'retweet'}]
+        $or: [{childType: null},{childType: 'retweet'}]
       },{
         "_id" : 0,
         "__v" : 0
@@ -796,7 +796,7 @@ function returnAllPosts_NoRe_MeO() {
       find({
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       },{
         "_id" : 0,
@@ -825,7 +825,7 @@ function returnAllPosts_NoRe() {
       find({
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
-        $or: [{childType: ''},{childType: 'retweet'}]
+        $or: [{childType: null},{childType: 'retweet'}]
       },{
         "_id" : 0,
         "__v" : 0
@@ -913,7 +913,7 @@ function returnAllPosts_Pa_NoRe_MeO() {
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
         parent: parent,
-        $or: [{childType: ''},{childType: 'retweet'}],
+        $or: [{childType: null},{childType: 'retweet'}],
         "media.0": { "$exists": true }
       },{
         "_id" : 0,
@@ -943,7 +943,7 @@ function returnAllPosts_Pa_NoRe() {
         timestamp: { $lte: time },
         content: { $regex: q, $options: "i" },
         parent: parent,
-        $or: [{childType: ''},{childType: 'retweet'}]
+        $or: [{childType: null},{childType: 'retweet'}]
       },{
         "_id" : 0,
         "__v" : 0
