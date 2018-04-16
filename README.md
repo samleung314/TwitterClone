@@ -7,23 +7,40 @@ http://34.237.243.112/
 Kyeongsoo Kim
 Samson Leung
 Naim Youssif
-
+Han Zhao
 
 
 # Setup
 We need 4 machines
 
-## Machine1
-NGINX
+## Machine1 (130.245.171.91)
+NGINX server that reverse proxies to the machines below.
+
+`Server Setup`
+- Step 1: [Install NGINX](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04)
+- Step 2: [Set up NGINX load balancing](https://www.upcloud.com/support/how-to-set-up-load-balancing/)
+- Step 3: Use the load-balancer.conf 
 
 ## Machine2
-To handle user
+Handles USER related requests
+    
+    /login
+    /logout
+    /adduser
+    /verify
+    /user/<username>/follower
+    /user/<username>/following
 
 ## Machine3
-To handle item
+Handles ITEM related requests
+
+    /search
+    /additem
+    /item</id>
+    /item/<id>/like
 
 ## Machine4
-To handle media
+Handles MEDIA related requests
 
     /addmedia
     /media/<id>
