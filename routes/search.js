@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require('../models/User');
+var User = require('../models/UserRemote');
 var Item = require('../models/Item');
 
 router.post('/', function (req, res, next) {

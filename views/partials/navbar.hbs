@@ -10,9 +10,9 @@
       <a class="navbar-brand" href="/">Twitter</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      {{#if user }}
-        <li><a href="/user/{{ user._id }}">{{ user.username }}</a></li>
-        <li><a href="/logout">Logout</a></li>
+      {{#if currentUser }}
+        <li id ="profile"><a href="/user/{{ currentUser }}">{{ currentUser }}</a></li>
+        <li id ="logout"><a href="/logout">Logout</a></li>
 
       {{/if }}
     </ul>

@@ -4,7 +4,7 @@ var User = require('../models/User');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'login' });
+  res.render('accounts/login', { message: req.flash('loginMessage')});
 });
 
 router.post('/', function (req, res, next) {
@@ -15,26 +15,37 @@ router.post('/', function (req, res, next) {
   User.findOne({ username: username }, function (err, user) {
     //can't find a user by username
     if (err || !user) {
-      console.log("Can't find username");
+      req.flash('loginMessage', 'No user found');
       res.status(200).json({
         status: 'error',
         error: 'Cannot find username'
       });
     } else {
-      if (user.username == username && user.password == password && user.verified) {
-        console.log(username + " login success!");
+      
+      
+      if (!user.verified)
+      {
+        req.flash('loginMessage', 'Please verify your account first');
+        res.status(200).json({
+          status: 'error',
+          error: 'unverified'
+        });
+      }
+      else if (user.password != password)
+      {
+        req.flash('loginMessage', 'Oops! wrong Password');
+        res.status(200).json({
+          status: 'error',
+          error: 'wrong password'
+        });
+      }
+      else if (user.password == password && user.verified) {
         res.cookie('username', username);
         res.status(200).json({
           status: 'OK'
         });
-      } else {
-        //the username/password is wrong
-        console.log("No such username/password combination or unverified");
-        res.status(200).json({
-          status: 'error',
-          error: 'No such username/password combination or unverified'
-        });
       }
+
     }
   });
 });
