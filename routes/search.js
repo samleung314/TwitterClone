@@ -46,196 +46,7 @@ router.post('/', function (req, res, next) {
     });
   }
 
-  function returnUserPosts_Main(user) {
-    if(parent) {
-      //valid item?
-      Item.findOne({ id: parent}, function(err, item) {
-        //can't find item
-        if (err || !item) {
-          console.log("Can't find item");
-          res.status(200).json({
-          status: 'OK',
-          items: {}
-        });
-        return;
-        }
-        else {
-          if(reply && hasMedia) {
-            returnUserPosts_Pa_MeO(user);
-          }
-          else if(reply && !hasMedia) {
-            returnUserPosts_Pa(user);
-          }
-          else if(!reply && hasMedia) {
-            returnUserPosts_Pa_NoRe_MeO(user);
-          }
-          else if(!reply && !hasMedia){
-            returnUserPosts_Pa_NoRe(user);
-          }
-        }
-      });
-    }
-    //parent not given
-    else{
-      if(reply && hasMedia) {
-        returnUserPosts_MeO(user);
-      }
-      else if(reply && !hasMedia) {
-        returnUserPosts(user);
-      }
-      else if(!reply && hasMedia) {
-        returnUserPosts_NoRe_MeO(user);
-      }
-      else if(!reply && !hasMedia){
-        returnUserPosts_NoRe(user);
-      }
-    }
-
-  }
-
-  function returnFollowingPosts_Main() {
-    if(parent) {
-      //valid item?
-      console.log("ENTER IF PARENT CLAUSE")
-      Item.findOne({ id: parent}, function(err, item) {
-        //can't find item
-        if (err || !item) {
-          console.log("Can't find item");
-          res.status(200).json({
-          status: 'OK',
-          items: {}
-        });
-        return;
-        }
-        else {
-          if(reply && hasMedia) {
-            return  returnFollowingPosts_Pa_MeO();
-          }
-          else if(reply && !hasMedia) {
-            returnFollowingPosts_Pa();
-          }
-          else if(!reply && hasMedia) {
-            returnFollowingPosts_Pa_NoRe_MeO();
-          }
-          else if(!reply && !hasMedia){
-            returnFollowingPosts_Pa_NoRe();
-          }
-        }
-      });
-    }
-    //parent not given
-    else{
-      if(reply && hasMedia) {
-        returnFollowingPosts_MeO();
-      }
-      else if(reply && !hasMedia) {
-        returnFollowingPosts();
-      }
-      else if(!reply && hasMedia) {
-        returnFollowingPosts_NoRe_MeO();
-      }
-      else if(!reply && !hasMedia){
-        returnFollowingPosts_NoRe();
-      }
-    }
-  }
-
-  function returnAllPosts_Main() {
-    if(parent) {
-      //valid item?
-      Item.findOne({ id: parent}, function(err, item) {
-        //can't find item
-        if (err || !item) {
-          console.log("Can't find item");
-          res.status(200).json({
-          status: 'OK',
-          items: {}
-        });
-        return;
-        }
-        else {
-          if(reply && hasMedia) {
-            returnAllPosts_Pa_MeO();
-          }
-          else if(reply && !hasMedia) {
-            returnAllPosts_Pa();
-          }
-          else if(!reply && hasMedia) {
-            returnAllPosts_Pa_NoRe_MeO();
-          }
-          else if(!reply && !hasMedia){
-            returnAllPosts_Pa_NoRe();
-          }
-        }
-      });
-    }
-    //parent not given
-    else{
-      if(reply && hasMedia) {
-        returnAllPosts_MeO();
-      }
-      else if(reply && !hasMedia) {
-        returnAllPosts();
-      }
-      else if(!reply && hasMedia) {
-        returnAllPosts_NoRe_MeO();
-      }
-      else if(!reply && !hasMedia){
-        returnAllPosts_NoRe();
-      }
-    }
-  }
-
-  //user given
-  if (username) {
-    console.log("username:" + username)
-    //valid user?
-    UserRemote.findOne({ username: username }, function levelOne(err, user) {
-      //can't find user
-      if (err || !user) {
-        console.log("Can't find username");
-        res.status(200).json({
-          status: 'OK',
-          items: {}
-        });
-        return;
-        //found user
-      } else {
-        console.log("found user: " + user.username);
-        //following
-        if (following) {
-          //check logged in user is following username
-          if (user.followers.indexOf(currentUser) >= 0) {
-            console.log('returnUserPosts()')
-            returnUserPosts_Main(user);
-          } else {
-            console.log("Target user is not being followed");
-            res.status(200).json({
-              status: 'OK',
-              items: {}
-            });
-            return;
-          }
-
-          //not following
-        } else {
-          returnUserPosts_Main(user);
-        }
-      }
-    });
-    //user not given
-  } else {
-    if (following) {
-      console.log("returnFollowingPosts()")
-      returnFollowingPosts_Main();
-    } else {
-      console.log("returnAllPosts()")
-      returnAllPosts_Main();
-    }
-  }
-});
-
-//HELPER METHODS FOR RETURNING USER POSTS
+  //HELPER METHODS FOR RETURNING USER POSTS
 
 //no parent, media only
 function returnUserPosts_MeO(user) {
@@ -966,6 +777,193 @@ function returnAllPosts_Pa_NoRe() {
       });
 }
 
+  function returnUserPosts_Main(user) {
+    if(parent) {
+      //valid item?
+      Item.findOne({ id: parent}, function(err, item) {
+        //can't find item
+        if (err || !item) {
+          console.log("Can't find item");
+          res.status(200).json({
+          status: 'OK',
+          items: {}
+        });
+        return;
+        }
+        else {
+          if(reply && hasMedia) {
+            returnUserPosts_Pa_MeO(user);
+          }
+          else if(reply && !hasMedia) {
+            returnUserPosts_Pa(user);
+          }
+          else if(!reply && hasMedia) {
+            returnUserPosts_Pa_NoRe_MeO(user);
+          }
+          else if(!reply && !hasMedia){
+            returnUserPosts_Pa_NoRe(user);
+          }
+        }
+      });
+    }
+    //parent not given
+    else{
+      if(reply && hasMedia) {
+        returnUserPosts_MeO(user);
+      }
+      else if(reply && !hasMedia) {
+        returnUserPosts(user);
+      }
+      else if(!reply && hasMedia) {
+        returnUserPosts_NoRe_MeO(user);
+      }
+      else if(!reply && !hasMedia){
+        returnUserPosts_NoRe(user);
+      }
+    }
 
+  }
+
+  function returnFollowingPosts_Main() {
+    if(parent) {
+      //valid item?
+      console.log("ENTER IF PARENT CLAUSE")
+      Item.findOne({ id: parent}, function(err, item) {
+        //can't find item
+        if (err || !item) {
+          console.log("Can't find item");
+          res.status(200).json({
+          status: 'OK',
+          items: {}
+        });
+        return;
+        }
+        else {
+          if(reply && hasMedia) {
+            return  returnFollowingPosts_Pa_MeO();
+          }
+          else if(reply && !hasMedia) {
+            returnFollowingPosts_Pa();
+          }
+          else if(!reply && hasMedia) {
+            returnFollowingPosts_Pa_NoRe_MeO();
+          }
+          else if(!reply && !hasMedia){
+            returnFollowingPosts_Pa_NoRe();
+          }
+        }
+      });
+    }
+    //parent not given
+    else{
+      if(reply && hasMedia) {
+        returnFollowingPosts_MeO();
+      }
+      else if(reply && !hasMedia) {
+        returnFollowingPosts();
+      }
+      else if(!reply && hasMedia) {
+        returnFollowingPosts_NoRe_MeO();
+      }
+      else if(!reply && !hasMedia){
+        returnFollowingPosts_NoRe();
+      }
+    }
+  }
+
+  function returnAllPosts_Main() {
+    if(parent) {
+      //valid item?
+      Item.findOne({ id: parent}, function(err, item) {
+        //can't find item
+        if (err || !item) {
+          console.log("Can't find item");
+          res.status(200).json({
+          status: 'OK',
+          items: {}
+        });
+        return;
+        }
+        else {
+          if(reply && hasMedia) {
+            returnAllPosts_Pa_MeO();
+          }
+          else if(reply && !hasMedia) {
+            returnAllPosts_Pa();
+          }
+          else if(!reply && hasMedia) {
+            returnAllPosts_Pa_NoRe_MeO();
+          }
+          else if(!reply && !hasMedia){
+            returnAllPosts_Pa_NoRe();
+          }
+        }
+      });
+    }
+    //parent not given
+    else{
+      if(reply && hasMedia) {
+        returnAllPosts_MeO();
+      }
+      else if(reply && !hasMedia) {
+        returnAllPosts();
+      }
+      else if(!reply && hasMedia) {
+        returnAllPosts_NoRe_MeO();
+      }
+      else if(!reply && !hasMedia){
+        returnAllPosts_NoRe();
+      }
+    }
+  }
+
+  //user given
+  if (username) {
+    console.log("username:" + username)
+    //valid user?
+    UserRemote.findOne({ username: username }, function levelOne(err, user) {
+      //can't find user
+      if (err || !user) {
+        console.log("Can't find username");
+        res.status(200).json({
+          status: 'OK',
+          items: {}
+        });
+        return;
+        //found user
+      } else {
+        console.log("found user: " + user.username);
+        //following
+        if (following) {
+          //check logged in user is following username
+          if (user.followers.indexOf(currentUser) >= 0) {
+            console.log('returnUserPosts()')
+            returnUserPosts_Main(user);
+          } else {
+            console.log("Target user is not being followed");
+            res.status(200).json({
+              status: 'OK',
+              items: {}
+            });
+            return;
+          }
+
+          //not following
+        } else {
+          returnUserPosts_Main(user);
+        }
+      }
+    });
+    //user not given
+  } else {
+    if (following) {
+      console.log("returnFollowingPosts()")
+      returnFollowingPosts_Main();
+    } else {
+      console.log("returnAllPosts()")
+      returnAllPosts_Main();
+    }
+  }
+});
 
 module.exports = router;
