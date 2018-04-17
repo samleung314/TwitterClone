@@ -96,6 +96,7 @@ router.post('/', function (req, res, next) {
   function returnFollowingPosts_Main() {
     if(parent) {
       //valid item?
+      console.log("ENTER IF PARENT CLAUSE")
       Item.findOne({ id: parent}, function(err, item) {
         //can't find item
         if (err || !item) {
