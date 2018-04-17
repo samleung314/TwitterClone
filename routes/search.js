@@ -206,7 +206,7 @@ router.post('/', function (req, res, next) {
           //check logged in user is following username
           if (user.followers.indexOf(currentUser) >= 0) {
             console.log('returnUserPosts()')
-            returnUserPosts(user);
+            returnUserPosts_Main(user);
           } else {
             console.log("Target user is not being followed");
             res.status(200).json({
@@ -218,7 +218,7 @@ router.post('/', function (req, res, next) {
 
           //not following
         } else {
-          returnUserPosts(user);
+          returnUserPosts_Main(user);
         }
       }
     });
@@ -226,10 +226,10 @@ router.post('/', function (req, res, next) {
   } else {
     if (following) {
       console.log("returnFollowingPosts()")
-      returnFollowingPosts();
+      returnFollowingPosts_Main();
     } else {
       console.log("returnAllPosts()")
-      returnAllPosts();
+      returnAllPosts_Main();
     }
   }
 });
