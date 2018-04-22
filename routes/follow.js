@@ -3,7 +3,6 @@ const async = require('async');
 const router = express.Router();
 const User = require('../models/User');
 
-
 //follow endpoint
 router.post('/', (req, res, next) => {
     var currentUsername = req.cookies.username; //my id

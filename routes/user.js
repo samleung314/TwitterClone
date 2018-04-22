@@ -28,7 +28,6 @@ router.get('/:username', function (req, res, next) {
     });
 });
 
-
 //Gets list of users following “username”
 router.get('/:username/followers', function (req, res, next) {
 

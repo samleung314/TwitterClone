@@ -1,4 +1,6 @@
-##USER SERVER##
+## USER SERVER ##
+adduser.js; follow.js; login.js; logout.js; user.js
+
 /adduser
 /login
 /logout
@@ -8,33 +10,14 @@
 /user/<username>/following
 /follow
 
-##ITEM SERVER##
+## ITEM SERVER ##
 /additem
 /item/<id>
 /item/<id>/like
 /search
 
-##MEDIA SERVER##
+## MEDIA SERVER ##
 /addmedia
 /media/<id>
 
-server {
-    listen 80;
-    
-    ## USER SERVER 130.245.168.150 ##
-    location /adduser/ { proxy_pass http://130.245.168.150/adduser; }
-    location /login/   { proxy_pass http://130.245.168.150/login; }
-    location /logout/  { proxy_pass http://130.245.168.150/logout; }
-    location /verify/  { proxy_pass http://130.245.168.150/verify; }
-    location /user/    { proxy_pass http://130.245.168.150/user; }
-    location /follow/  { proxy_pass http://130.245.168.150/follow; }
-    
-    ## ITEM SERVER 130.245.170.196 ##
-    location /additem/  { proxy_pass http://130.245.170.196/additem; }
-    location /item/     { proxy_pass http://130.245.170.196/item; }
-    location /search/   { proxy_pass http://130.245.170.196/search; }
-    
-    ## MEDIA SERVER 130.245.170.102 ##
-    location /addmedia/  { proxy_pass http://130.245.170.102/addmedia; }
-    location /media/     { proxy_pass http://130.245.170.102/media; }
-}
+## SERVER LIST ##

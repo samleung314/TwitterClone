@@ -11,7 +11,6 @@ var UserSchema = new mongoose.Schema({
   following: [ String ],
   followers: [ String ]
 });
-
 var user = userConn.model('User', UserSchema);
 
 module.exports = user;
