@@ -5,13 +5,14 @@ const cassandra = require('cassandra-driver');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
 const mime = require('mime-types') //content-type utility
-const client = new cassandra.Client({ contactPoints: ['127.0.0.1'], keyspace: 'db' });//connect to the cluster
+const client = new cassandra.Client({ contactPoints: ['127.0.0.1'], keyspace: 'media' });//connect to the cluster
 
+var Memcached = require('memcached');
+var memcached = new Memcached('localhost:11211', {retries:10});
 
 //addmedia endpoint
-router.post('/deposit', upload.single('content'), function (req, res) {
+router.post('/addmedia', upload.single('content'), function (req, res) {
     // check if logged in
     /*
     if (typeof (req.cookies.username) == 'undefined') {
@@ -23,13 +24,10 @@ router.post('/deposit', upload.single('content'), function (req, res) {
     }
     */
 
-    //var username = req.cookies.username;
-    var id = now().toString();
+    var id = (new Date).getTime().toString(); //create unique id for each item in cassandra
     var content = req.file.buffer;
 
-    console.log(req.file);
-
-    const query = 'INSERT INTO media (mediaId, content) VALUES (?, ?)';
+    const query = 'INSERT INTO media (id, content) VALUES (?, ?)';
 
     const params = [id, content];
     client.execute(query, params, { prepare: true }, function (err) {
@@ -40,43 +38,106 @@ router.post('/deposit', upload.single('content'), function (req, res) {
             });
         }
         else {
-            console.log('Inserted media '+params[0]+' in the cluster');
-            console.log("--------------------------------------------");
+            console.log('Inserted media(id: ' + params[0] + ') in the cluster');
             res.status(200).json({
                 status: 'OK',
                 id: id
             });
         }
     });
-
 });
 
 router.get('/media/:id', (req, res, next) => {
-    
+
     var id = req.params.id;
-    console.log(id);
-  
-    const query = 'SELECT contents FROM media WHERE id = ?';
-  
-    var mimetype = mime.lookup(id);
-    res.set('Content-Type', mimetype);
-  
-    const params = [id];
-    client.execute(query, params, { prepare: true }, function(err, result) {
-        if (err){
-          console.log(err);
-          console.log('**ERROR** in client.execute');
+
+    /*
+    memcached.get(id,function(err,data){
+        if (err) {
+            
+        }
+        else {
+            if(typeof data === 'undefined')
+                console.log(data);
+            else
+                console.log('yeah');
+        }
+    })
+    memcached.add(id,"fuck",10, function(err,data){});
+    memcached.get(id,function(err,data){
+        if (err) {
+            
+        }
+        else {
+            if(typeof data === 'undefined')
+                console.log(data);
+            else
+            console.log(data);
+        }
+    })
+    memcached.add(id,"damn",10, function(err,data){});
+    memcached.get(id,function(err,data){
+        if (err) {
+            
+        }
+        else {
+            if(typeof data === 'undefined')
+                console.log(data);
+            else
+            console.log(data);
+        }
+    })
+    
+    */
+
+
+    memcached.get(id,function (err, data) {
+        if (err || (typeof data === 'undefined' ))
+        {
+            console.log('cache miss, access to database');
+
+            const query = 'SELECT content FROM media WHERE id = ?';
+
+            var mimetype = mime.lookup(id);
+            res.set('Content-Type', mimetype);
+
+            const params = [id];
+            client.execute(query, params, { prepare: true }, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    console.log('**ERROR** in client.execute');
+                }
+                else {
+                    console.log('retrieved image succesfuly');
+                    memcached.add(id, result.rows[0].content, 90, function (err) { 
+                        if(err)
+                        {
+                            console.log('error detected while saving content in memcached');
+                            res.status(200).json({
+                                status: 'error',
+                                error: 'error detected while saving content in memcached'
+                            });
+                            return;
+                        }
+                        else
+                        {
+                            console.log('saved content in memcached');
+                        }
+                    });
+                     /*
+                        res.send() insists on sticking charset into the content-type
+                        res.end() can send data back with a 'binary' encoding
+                    */
+                   res.end(new Buffer(result.rows[0].content), 'binary');
+                }
+            });
+
         }
         else{
-          console.log('retrieved image succesfuly');
-          
-          /*
-              res.send() insists on sticking charset into the content-type
-              res.end() can send data back with a 'binary' encoding
-          */
-          res.end(new Buffer(result.rows[0].content), 'binary');
+            console.log('retrieved from memcached');
+            res.end(new Buffer(data), 'binary');
         }
-    });
+    })
 });
 
 

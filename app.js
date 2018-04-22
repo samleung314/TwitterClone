@@ -12,7 +12,11 @@ const flash = require('express-flash');
 const config = require('./config/secret');
 const bodyParser = require('body-parser');
 
-var mongodb = require('./mongodb');
+
+var Memcached = require('memcached');
+Memcached.config.poolSize = 25;
+var memcached = new Memcached('localhost:11211', {retries:10});
+
 
 //create express app
 var app = express();
@@ -38,28 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); //tells the system that you want json to be used.
 
 // setup routes
-var indexRouter = require('./routes/index');
-var additemRouter = require('./routes/additem');
-var adduserRouter = require('./routes/adduser');
-var itemRouter = require('./routes/item');
-var loginRouter = require('./routes/login');
-var logoutRouter = require('./routes/logout');
-var searchRouter = require('./routes/search');
-var verifyRouter = require('./routes/verify');
-var followRouter = require('./routes/follow');
-var userRouter = require('./routes/user');
 var mediaRouter = require('./routes/media');
-
-app.use('/', indexRouter);
-app.use('/additem', additemRouter);
-app.use('/adduser', adduserRouter);
-app.use('/item', itemRouter);
-app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
-app.use('/search', searchRouter);
-app.use('/verify', verifyRouter);
-app.use('/follow', followRouter);
-app.use('/user', userRouter);
 app.use(mediaRouter);
 
 // catch 404 and forward to error handler
@@ -79,6 +62,6 @@ app.use(function(err, req, res, next) {
 });
 
 // start server
-app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
+app.listen(80, () => console.log('TwitterClone(Machine4) listening on port 80!'))
 
 module.exports = app;
