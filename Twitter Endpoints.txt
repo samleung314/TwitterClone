@@ -1,6 +1,4 @@
-## USER SERVER ##
-adduser.js; follow.js; login.js; logout.js; user.js
-
+## USER SERVER ## - adduser.js; follow.js; login.js; logout.js; user.js; verify.js
 /adduser
 /login
 /logout
@@ -10,14 +8,30 @@ adduser.js; follow.js; login.js; logout.js; user.js
 /user/<username>/following
 /follow
 
-## ITEM SERVER ##
+## ITEM SERVER ## - additem.js; item.js; search.js
 /additem
 /item/<id>
 /item/<id>/like
 /search
 
-## MEDIA SERVER ##
+## MEDIA SERVER ## - media.js
 /addmedia
 /media/<id>
 
 ## SERVER LIST ##
+twitter-nginx   130.245.169.146
+twitter-user    130.245.168.150
+twitter-media   130.245.170.102
+
+han's email     130.245.171.43
+
+twitter-item    130.245.170.196
+
+                # Openstack workers
+                130.245.171.52;
+
+                # Amazon workers
+                54.89.156.156;
+                107.20.129.75;
+                52.87.253.112;
+                54.175.120.31;
