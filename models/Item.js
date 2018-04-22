@@ -11,7 +11,6 @@ var ItemSchema = new mongoose.Schema({
   childType: {type: String, default: null},
   parent: {type:String, default: ''},
   media: [ String ]
-
 });
 mongoose.model('Item', ItemSchema);
 
