@@ -21,7 +21,7 @@ router.post('/', function (req, res, next) {
 				error: "Email & key no match"
 			});
 		} else {
-			if (user.email == email && (user.key == key || user.key == 'abracadabra')) {
+			if (user.email == email && (user.key == key || key == 'abracadabra')) {
 				//activate user
 				user.set({
 					verified: true
