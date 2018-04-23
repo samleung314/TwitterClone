@@ -41,53 +41,28 @@ router.post('/addmedia', upload.single('content'), function (req, res) {
 router.get('/media/:id', (req, res, next) => {
 
     var id = req.params.id;
+    console.log("Finding media: " + id);
 
-    memcached.get(id, function (err, data) {
-        if (err || (typeof data === 'undefined')) {
-            console.log('cache miss, access to database');
+    var mimetype = mime.lookup(id);
+    res.set('Content-Type', mimetype);
 
-            const query = 'SELECT content FROM media WHERE id = ?';
+    const query = 'SELECT content FROM media WHERE id = ?';
 
-            var mimetype = mime.lookup(id);
-            res.set('Content-Type', mimetype);
-
-            const params = [id];
-            client.execute(query, params, { prepare: true }, function (err, result) {
-                if (err) {
-                    console.log(err);
-                    console.log('**ERROR** in client.execute');
-                }
-                else {
-                    console.log('retrieved image succesfully');
-                    memcached.add(id, result.rows[0].content, 90, function (err) {
-                        if (err) {
-                            console.log('error detected while saving content in memcached\n' + err);
-                            res.status(200).json({
-                                status: 'error',
-                                error: 'error detected while saving content in memcached'
-                            });
-                            return;
-                        }
-                        else {
-                            console.log('saved content in memcached');
-                        }
-                    });
-                    /*
-                       res.send() insists on sticking charset into the content-type
-                       res.end() can send data back with a 'binary' encoding
-                   */
-                    res.end(new Buffer(result.rows[0].content), 'binary');
-                }
-            });
-
+    const params = [id];
+    client.execute(query, params, { prepare: true }, function (err, result) {
+        if (err) {
+            console.log('**ERROR** in client.execute');
+            console.log(err);
         }
         else {
-            console.log('retrieved from memcached');
-            res.end(new Buffer(data), 'binary');
+            console.log('Get image success!');
+            res.end(new Buffer(result.rows[0].content), 'binary');
+            /*
+               res.send() insists on sticking charset into the content-type
+               res.end() can send data back with a 'binary' encoding
+           */
         }
-    })
+    });
 });
-
-
 
 module.exports = router;
