@@ -22,6 +22,7 @@ router.post('/addmedia', upload.single('content'), function (req, res) {
     const params = [id, content];
     client.execute(query, params, { prepare: true }, function (err) {
         if (err) {
+            console.log(err);
             res.status(200).json({
                 status: 'error',
                 error: 'failed to save media in cassandra'
