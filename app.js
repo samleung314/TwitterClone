@@ -62,6 +62,6 @@ app.use(function(err, req, res, next) {
 });
 
 // start server
-app.listen(80, () => console.log('TwitterClone(Machine4) listening on port 80!'))
+app.listen(80, () => console.log('Media Server listening on port 80!'))
 
 module.exports = app;
