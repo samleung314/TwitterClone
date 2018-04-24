@@ -6,7 +6,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const mime = require('mime-types') //content-type utility
-const client = new cassandra.Client({ contactPoints: ['192.168.1.36:9042', '192.168.1.37:9042', '192.168.1.38:9042'], keyspace: 'media' });//connect to the cluster
+const client = new cassandra.Client({ contactPoints: ['192.168.1.41:9042', '192.168.1.42:9042', '192.168.1.44:9042'], keyspace: 'media' });//connect to the cluster
 
 var Memcached = require('memcached');
 var memcached = new Memcached('localhost:11211', { retries: 10 });
