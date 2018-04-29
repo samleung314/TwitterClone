@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://mongo-admin:password@172.31.92.221:27017/twitter';
+var mongoDB = 'mongodb://mongo-twitter:password@172.31.92.221:27017/twitter';
 mongoose.connect(mongoDB);
 
 var db = mongoose.connection;
