@@ -19,7 +19,7 @@ router.get('/:id', function (req, res, next) {
         item: {
           id: item.id,
           username: item.user,
-          property: item.property.likes,
+          property: {likes: item.property.likes},
           retweeted: item.retweeted,
           content: item.content,
           timestamp: Math.floor(Date.now() / 1000),
