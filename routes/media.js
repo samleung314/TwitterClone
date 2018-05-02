@@ -38,7 +38,6 @@ router.post('/addmedia', upload.single('content'), function (req, res) {
             });
         }
         else {
-            console.log('Inserted media(id: ' + params[0] + ') in the cluster');
             res.status(200).json({
                 status: 'OK',
                 id: id
@@ -50,7 +49,6 @@ router.post('/addmedia', upload.single('content'), function (req, res) {
 router.get('/media/:id', (req, res, next) => {
 
     var id = req.params.id;
-    console.log("Finding media: " + id);
 
     var mimetype = mime.lookup(id);
     res.set('Content-Type', mimetype);
@@ -64,7 +62,6 @@ router.get('/media/:id', (req, res, next) => {
             console.log(err);
         }
         else {
-            console.log('Get image success!');
             res.end(new Buffer(result.rows[0].content), 'binary');
             /*
                res.send() insists on sticking charset into the content-type
@@ -77,7 +74,6 @@ router.get('/media/:id', (req, res, next) => {
 router.get('/media/:id', (req, res, next) => {
 
     var id = req.params.id;
-    console.log("Finding media: " + id);
 
     var mimetype = mime.lookup(id);
     res.set('Content-Type', mimetype);
@@ -91,7 +87,6 @@ router.get('/media/:id', (req, res, next) => {
             console.log(err);
         }
         else {
-            console.log('Get image success!');
             res.end(new Buffer(result.rows[0].content), 'binary');
             /*
                res.send() insists on sticking charset into the content-type
