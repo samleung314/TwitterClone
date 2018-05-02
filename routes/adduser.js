@@ -25,7 +25,6 @@ router.post('/', function (req, res, next) {
 
     newUser.save(function (err, newUser) {
         if (err) return console.error(err);
-        else console.log("User Saved!");
     });
 
     sendMail(email, key);

@@ -23,11 +23,7 @@ router.post('/', function (req, res, next) {
   if (typeof (req.body.following) !== 'undefined') following = req.body.following;
   if (time > now || limit > 100 || limit < 0) error = true;
 
-  console.log(req.body);
-  console.log('limit: ' + limit);
-  console.log('q: ' + q);
-  console.log('username: ' + username);
-  console.log("TYPEOF following: " + typeof(req.body.following) + ' value: ' + following);
+  console.log("Search: " + req.body);
   if(following == 'false') following = false;
   if(following == true) console.log(following + " is true");
   if(following == false) console.log(following + " is false");
@@ -58,7 +54,6 @@ router.post('/', function (req, res, next) {
             status: 'error'
           });
         } else {
-          console.log("RETURN USER POSTS");
           res.status(200).json({
             status: 'OK',
             items: docs
@@ -86,7 +81,6 @@ router.post('/', function (req, res, next) {
               status: 'error'
             });
           } else {
-            console.log("RETURN FOLLOWING POSTS");
             res.status(200).json({
               status: 'OK',
               items: docs
@@ -114,7 +108,6 @@ router.post('/', function (req, res, next) {
             status: 'error'
           });
         } else {
-          console.log("RETURN ALL POSTS");
           res.status(200).json({
             status: 'OK',
             items: docs
@@ -126,7 +119,6 @@ router.post('/', function (req, res, next) {
 
   //user given
   if (username) {
-    console.log("username:" + username)
     //valid user?
     User.findOne({ username: username }, function levelOne(err, user) {
       //can't find user
@@ -139,15 +131,12 @@ router.post('/', function (req, res, next) {
         return;
         //found user
       } else {
-        console.log("found user: " + user.username);
         //following
         if (following) {
           //check logged in user is following username
           if (user.followers.indexOf(currentUser) >= 0) {
-            console.log('returnUserPosts()')
             returnUserPosts(user);
           } else {
-            console.log("Target user is not being followed");
             res.status(200).json({
               status: 'OK',
               items: {}
@@ -164,10 +153,8 @@ router.post('/', function (req, res, next) {
     //user not given
   } else {
     if (following) {
-      console.log("returnFollowingPosts()")
       returnFollowingPosts();
     } else {
-      console.log("returnAllPosts()")
       returnAllPosts();
     }
   }

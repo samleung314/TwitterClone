@@ -11,7 +11,6 @@ router.post('/', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
 
-  console.log("Finding username: " + username + " password: " + password);
   User.findOne({ username: username }, function (err, user) {
     //can't find a user by username
     if (err || !user) {

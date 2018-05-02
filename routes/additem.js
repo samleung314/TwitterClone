@@ -43,7 +43,6 @@ router.post('/', function (req, res, next) {
 
   newItem.save(function (err, newItem) {
     if (err) return console.error(err);
-    else console.log("Item Saved!");
     res.status(200).json({
       status: 'OK',
       id: newItem.id

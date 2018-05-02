@@ -13,7 +13,6 @@ router.get('/:id', function (req, res, next) {
         error: 'Cannot find item'
       });
     } else {
-      console.log("Found: " + item.id);
       res.status(200).json({
         status: 'OK',
         item: {
@@ -34,7 +33,6 @@ router.get('/:id', function (req, res, next) {
 
 /* DELETE */
 router.delete('/:id', function (req, res, next) {
-  console.log("DELETE");
   var targetId = req.params.id;
   Item.find({ id: targetId }).remove(function (err, item) {
     if (err || !item) {
@@ -65,8 +63,6 @@ router.post('/:id/like', function (req, res, next) {
     }
     else {
       if (like) {
-        console.log("IN LIKE CLAUSE");
-
         Item.update(
           { id: id },
           { $inc: { "property.likes": 1 } }
@@ -75,7 +71,6 @@ router.post('/:id/like', function (req, res, next) {
 
           }
           else {
-            console.log("Liked!");
             res.status(200).json({
             status: 'OK'
             });
@@ -94,7 +89,6 @@ router.post('/:id/like', function (req, res, next) {
   
             }
             else {
-              console.log("Unliked!");
               res.status(200).json({
               status: 'OK'
               });

@@ -11,7 +11,6 @@ router.post('/', function (req, res, next) {
 	var email = req.body.email;
 	var key = req.body.key;
 
-	console.log("Verify email: " + email + " key: " + key);
 	User.findOne({ email: email }, function (err, user) {
 		//can't find a user by email
 		if (err || !user) {
@@ -31,7 +30,6 @@ router.post('/', function (req, res, next) {
 				user.save(function (err, updateduser) {
 					if (err) return handleError(err);
 					//return OK status response
-					console.log("Verified " + updateduser.email);
 					res.status(200).json({
 						status: 'OK'
 					});
