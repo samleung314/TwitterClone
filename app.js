@@ -1,5 +1,4 @@
 var createError = require('http-errors');
-var express = require('express');
 var path = require('path');
 var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
@@ -12,73 +11,84 @@ const flash = require('express-flash');
 const config = require('./config/secret');
 const bodyParser = require('body-parser');
 
-var mongodb = require('./mongodb');
+var cluster = require('cluster');
+if (cluster.isMaster) {
+  // Count the machine's CPUs
+  var cpuCount = require('os').cpus().length;
 
-//create express app
-var app = express();
+  // Create a worker for each CPU
+  for (var i = 0; i < cpuCount; i += 1) {
+    cluster.fork();
+  }
+} else {
 
-// view engine setup
-app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
-app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/public'));
+  var mongodb = require('./mongodb');
+  //create express app
+  var express = require('express');
+  var app = express();
+
+  // view engine setup
+  app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
+  app.set('view engine', 'hbs');
+  app.use(express.static(__dirname + '/public'));
 
 
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: config.secret
-}));
-app.use(logger('dev'));
-app.use(flash());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+  app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: config.secret
+  }));
+  app.use(logger('dev'));
+  app.use(flash());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); //tells the system that you want json to be used.
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json()); //tells the system that you want json to be used.
 
-// setup routes
-var indexRouter = require('./routes/index');
-var additemRouter = require('./routes/additem');
-var adduserRouter = require('./routes/adduser');
-var itemRouter = require('./routes/item');
-var loginRouter = require('./routes/login');
-var logoutRouter = require('./routes/logout');
-var searchRouter = require('./routes/search');
-var verifyRouter = require('./routes/verify');
-var followRouter = require('./routes/follow');
-var userRouter = require('./routes/user');
-var mediaRouter = require('./routes/media');
+  // setup routes
+  var indexRouter = require('./routes/index');
+  var additemRouter = require('./routes/additem');
+  var adduserRouter = require('./routes/adduser');
+  var itemRouter = require('./routes/item');
+  var loginRouter = require('./routes/login');
+  var logoutRouter = require('./routes/logout');
+  var searchRouter = require('./routes/search');
+  var verifyRouter = require('./routes/verify');
+  var followRouter = require('./routes/follow');
+  var userRouter = require('./routes/user');
+  var mediaRouter = require('./routes/media');
 
-app.use('/', indexRouter);
-app.use('/additem', additemRouter);
-app.use('/adduser', adduserRouter);
-app.use('/item', itemRouter);
-app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
-app.use('/search', searchRouter);
-app.use('/verify', verifyRouter);
-app.use('/follow', followRouter);
-app.use('/user', userRouter);
-app.use(mediaRouter);
+  app.use('/', indexRouter);
+  app.use('/additem', additemRouter);
+  app.use('/adduser', adduserRouter);
+  app.use('/item', itemRouter);
+  app.use('/login', loginRouter);
+  app.use('/logout', logoutRouter);
+  app.use('/search', searchRouter);
+  app.use('/verify', verifyRouter);
+  app.use('/follow', followRouter);
+  app.use('/user', userRouter);
+  app.use(mediaRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    next(createError(404));
+  });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // error handler
+  app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+  });
 
-// start server
-app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
-
+  // start server
+  app.listen(80, () => console.log('Twitter Clone listening on port 80!'))
+}
 module.exports = app;

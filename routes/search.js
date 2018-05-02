@@ -23,10 +23,7 @@ router.post('/', function (req, res, next) {
   if (typeof (req.body.following) !== 'undefined') following = req.body.following;
   if (time > now || limit > 100 || limit < 0) error = true;
 
-  console.log("Search: " + req.body);
   if(following == 'false') following = false;
-  if(following == true) console.log(following + " is true");
-  if(following == false) console.log(following + " is false");
 
   if (error) {
     console.log("invalid search");
